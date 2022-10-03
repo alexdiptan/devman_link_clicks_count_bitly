@@ -15,6 +15,6 @@
 
 Пример содержимого файла `.env`:
 ```python
-TOKEN = '9ac047c123h21j3hksada123zeq981b82d93b60ca4'
+BITLY_TOKEN = '9ac047c123h21j3hksada123zeq981b82d93b60ca4'
 ```
 Скрипт запускается выполнением команды `python3 main.py`

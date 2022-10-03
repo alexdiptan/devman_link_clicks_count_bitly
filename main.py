@@ -3,10 +3,10 @@ import requests
 import os
 
 
-def shorten_link(url_to_create, token: str) -> str:
+def shorten_link(user_inputted_url, token: str) -> str:
     url = 'https://api-ssl.bitly.com/v4/shorten'
     headers = {'Authorization': f'Bearer {token}'}
-    payload = {'long_url': f'{url_to_create}'}
+    payload = {'long_url': user_inputted_url}
 
     bitlink = requests.post(url, json=payload, headers=headers)
     bitlink.raise_for_status()
@@ -16,9 +16,8 @@ def shorten_link(url_to_create, token: str) -> str:
 
 def count_clicks(token: str, link: str) -> str:
     headers = {'Authorization': f'Bearer {token}'}
-    params = {'unit': 'day', 'units': '-1'}
     url = f'https://api-ssl.bitly.com/v4/bitlinks/{link}/clicks/summary'
-    bitlink = requests.get(url, params=params, headers=headers)
+    bitlink = requests.get(url, headers=headers)
     bitlink.raise_for_status()
 
     return bitlink.json()['total_clicks']
@@ -34,17 +33,17 @@ def is_bitlink(token: str, bitlink: str) -> bool:
 
 def main():
     load_dotenv()
-    my_token = os.environ['TOKEN']
-    link_to_process = input('Введите ссылку: ')  # https://encyclopedia2.thefreedictionary.com
+    bitly_token = os.environ['BITLY_TOKEN']
+    user_inputted_url = input('Введите ссылку: ')
 
-    if is_bitlink(my_token, link_to_process):
+    if is_bitlink(bitly_token, user_inputted_url):
         try:
-            print(f'Кол-во кликов: {count_clicks(my_token, link_to_process)}')
+            print(f'Кол-во кликов: {count_clicks(bitly_token, user_inputted_url)}')
         except requests.exceptions.HTTPError:
             print('Не удалось получить кол-во кликов')
     else:
         try:
-            print(f'Битлинк {shorten_link(link_to_process, my_token)}')
+            print(f'Битлинк {shorten_link(user_inputted_url, bitly_token)}')
         except requests.exceptions.HTTPError:
             print('Вы ввели не корректную ссылку')
 
