@@ -2,8 +2,6 @@ from dotenv import load_dotenv
 import requests
 import os
 
-load_dotenv()
-
 
 def shorten_link(url_to_create, token: str) -> str:
     url = 'https://api-ssl.bitly.com/v4/shorten'
@@ -35,6 +33,7 @@ def is_bitlink(token: str, bitlink: str) -> bool:
 
 
 def main():
+    load_dotenv()
     my_token = os.environ['TOKEN']
     link_to_process = input('Введите ссылку: ')  # https://encyclopedia2.thefreedictionary.com
 
