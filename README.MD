@@ -6,15 +6,22 @@
 
 ### Как запускать
 Создать виртуальное окружение:
-`python3 -m venv /path/to/new/virtual/environment`
+```
+python3 -m venv /path/to/new/virtual/environment
+```
 
-Установить зависимости из requirements.txt
-`pip install -m requirements.txt`
+Установить зависимости из requirements.txt:
+```
+pip install -r requirements.txt
+```
 
-Создать файл `.env`, добавить в созданный файл переменную TOKEN. 
+Создать файл `.env`, добавить в созданный файл переменную BITLY_TOKEN. 
 
 Пример содержимого файла `.env`:
 ```python
-BITLY_TOKEN = '9ac047c123h21j3hksada123zeq981b82d93b60ca4'
+BITLY_TOKEN='9ac047c123h21j3hksada123zeq981b82d93b60ca4'
 ```
-Скрипт запускается выполнением команды `python3 main.py`
+Скрипт запускается выполнением команды:
+```
+python3 main.py
+```

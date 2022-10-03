@@ -3,10 +3,10 @@ import requests
 import os
 
 
-def shorten_link(user_inputted_url, token: str) -> str:
+def shorten_link(user_input, token: str) -> str:
     url = 'https://api-ssl.bitly.com/v4/shorten'
     headers = {'Authorization': f'Bearer {token}'}
-    payload = {'long_url': user_inputted_url}
+    payload = {'long_url': user_input}
 
     bitlink = requests.post(url, json=payload, headers=headers)
     bitlink.raise_for_status()
@@ -34,16 +34,16 @@ def is_bitlink(token: str, bitlink: str) -> bool:
 def main():
     load_dotenv()
     bitly_token = os.environ['BITLY_TOKEN']
-    user_inputted_url = input('Введите ссылку: ')
+    user_input = input('Введите ссылку: ')
 
-    if is_bitlink(bitly_token, user_inputted_url):
+    if is_bitlink(bitly_token, user_input):
         try:
-            print(f'Кол-во кликов: {count_clicks(bitly_token, user_inputted_url)}')
+            print(f'Кол-во кликов: {count_clicks(bitly_token, user_input)}')
         except requests.exceptions.HTTPError:
             print('Не удалось получить кол-во кликов')
     else:
         try:
-            print(f'Битлинк {shorten_link(user_inputted_url, bitly_token)}')
+            print(f'Битлинк {shorten_link(user_input, bitly_token)}')
         except requests.exceptions.HTTPError:
             print('Вы ввели не корректную ссылку')
 
