@@ -1,6 +1,14 @@
 from dotenv import load_dotenv
 import requests
 import os
+import argparse
+from urllib.parse import urlparse
+
+
+parser = argparse.ArgumentParser(description='Скрипт создает битли-ссылку')
+parser.add_argument('external_link', help='Ссылка')
+args = parser.parse_args()
+
 
 
 def shorten_link(user_input, token: str) -> str:
@@ -15,6 +23,8 @@ def shorten_link(user_input, token: str) -> str:
 
 
 def count_clicks(token: str, link: str) -> str:
+    link_parts = urlparse(link)
+    link = ''.join([link_parts.netloc, link_parts.path])
     headers = {'Authorization': f'Bearer {token}'}
     url = f'https://api-ssl.bitly.com/v4/bitlinks/{link}/clicks/summary'
     bitlink = requests.get(url, headers=headers)
@@ -24,6 +34,8 @@ def count_clicks(token: str, link: str) -> str:
 
 
 def is_bitlink(token: str, bitlink: str) -> bool:
+    link_parts = urlparse(bitlink)
+    bitlink = ''.join([link_parts.netloc, link_parts.path])
     headers = {'Authorization': f'Bearer {token}'}
     url = f'https://api-ssl.bitly.com/v4/bitlinks/{bitlink}'
     response = requests.get(url, headers=headers)
@@ -34,16 +46,15 @@ def is_bitlink(token: str, bitlink: str) -> bool:
 def main():
     load_dotenv()
     bitly_token = os.environ['BITLY_TOKEN']
-    user_input = input('Введите ссылку: ')
 
-    if is_bitlink(bitly_token, user_input):
+    if is_bitlink(bitly_token, args.external_link):
         try:
-            print(f'Кол-во кликов: {count_clicks(bitly_token, user_input)}')
+            print(f'Кол-во переходов по ссылке битли: {count_clicks(bitly_token, args.external_link)}')
         except requests.exceptions.HTTPError:
             print('Не удалось получить кол-во кликов')
     else:
         try:
-            print(f'Битлинк {shorten_link(user_input, bitly_token)}')
+            print(f'Битлинк {shorten_link(args.external_link, bitly_token)}')
         except requests.exceptions.HTTPError:
             print('Вы ввели не корректную ссылку')
 
