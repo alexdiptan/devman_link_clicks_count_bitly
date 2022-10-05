@@ -21,7 +21,9 @@ pip install -r requirements.txt
 ```python
 BITLY_TOKEN='9ac047c123h21j3hksada123zeq981b82d93b60ca4'
 ```
-Скрипт запускается выполнением команды:
+Скрипт имеет обязательный параметр - ссылка. Ссылка указывается сразу после
+скрипта.
+Пример запуска скрипта:
 ```
-python3 main.py
+python3 main.py https://yourlink.com
 ```
