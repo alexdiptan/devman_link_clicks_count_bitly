@@ -6,7 +6,7 @@ from urllib.parse import urlparse
 
 
 parser = argparse.ArgumentParser(description='Скрипт создает битли-ссылку')
-parser.add_argument('external_link', help='Ссылка')
+parser.add_argument('user_link', help='Ссылка')
 args = parser.parse_args()
 
 
@@ -47,14 +47,14 @@ def main():
     load_dotenv()
     bitly_token = os.environ['BITLY_TOKEN']
 
-    if is_bitlink(bitly_token, args.external_link):
+    if is_bitlink(bitly_token, args.user_link):
         try:
-            print(f'Кол-во переходов по ссылке битли: {count_clicks(bitly_token, args.external_link)}')
+            print(f'Кол-во переходов по ссылке битли: {count_clicks(bitly_token, args.user_link)}')
         except requests.exceptions.HTTPError:
             print('Не удалось получить кол-во кликов')
     else:
         try:
-            print(f'Битлинк {shorten_link(args.external_link, bitly_token)}')
+            print(f'Битлинк {shorten_link(args.user_link, bitly_token)}')
         except requests.exceptions.HTTPError:
             print('Вы ввели не корректную ссылку')
 
