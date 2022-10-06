@@ -1,9 +1,9 @@
-import os
 import argparse
-
-from dotenv import load_dotenv
+import os
 from urllib.parse import urlparse
+
 import requests
+from dotenv import load_dotenv
 
 
 def shorten_link(user_input, token: str) -> str:
@@ -39,6 +39,10 @@ def is_bitlink(token: str, bitlink: str) -> bool:
 
 
 def main():
+    parser = argparse.ArgumentParser(description='Скрипт создает битли-ссылку')
+    parser.add_argument('user_link', help='Ссылка')
+    args = parser.parse_args()
+
     load_dotenv()
     bitly_token = os.environ['BITLY_TOKEN']
 
@@ -55,8 +59,4 @@ def main():
 
 
 if __name__ == '__main__':
-    parser = argparse.ArgumentParser(description='Скрипт создает битли-ссылку')
-    parser.add_argument('user_link', help='Ссылка')
-    args = parser.parse_args()
-
     main()
