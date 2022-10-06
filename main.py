@@ -1,14 +1,9 @@
-from dotenv import load_dotenv
-import requests
 import os
 import argparse
+
+from dotenv import load_dotenv
 from urllib.parse import urlparse
-
-
-parser = argparse.ArgumentParser(description='Скрипт создает битли-ссылку')
-parser.add_argument('user_link', help='Ссылка')
-args = parser.parse_args()
-
+import requests
 
 
 def shorten_link(user_input, token: str) -> str:
@@ -60,4 +55,8 @@ def main():
 
 
 if __name__ == '__main__':
+    parser = argparse.ArgumentParser(description='Скрипт создает битли-ссылку')
+    parser.add_argument('user_link', help='Ссылка')
+    args = parser.parse_args()
+
     main()
